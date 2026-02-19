@@ -1,0 +1,90 @@
+// ==========================================
+// 设计系统变量 - Design System Variables
+// ==========================================
+
+// 色彩体系
+$color-primary: #6C63FF;
+$color-primary-light: #8B83FF;
+$color-primary-dark: #5A52E0;
+$color-accent: #FF6584;
+$color-accent-light: #FF8FA3;
+$color-success: #00C9A7;
+$color-success-light: #00E4BF;
+$color-warning: #FFC75F;
+$color-warning-light: #FFD97D;
+$color-info: #36CFC9;
+$color-danger: #FF4D4F;
+
+// 背景色
+$bg-page: #F8F9FE;
+$bg-dark: #0F0E17;
+$bg-dark-secondary: #1A1A2E;
+$bg-dark-card: #16213E;
+$bg-card: #FFFFFF;
+$bg-card-hover: #F0EEFF;
+
+// 玻璃态
+$glass-bg: rgba(255, 255, 255, 0.7);
+$glass-bg-dark: rgba(22, 33, 62, 0.7);
+$glass-border: rgba(255, 255, 255, 0.18);
+$glass-border-dark: rgba(255, 255, 255, 0.08);
+
+// 文字色
+$text-primary: #2D3436;
+$text-secondary: #636E72;
+$text-light: #B2BEC3;
+$text-white: #FFFFFF;
+
+// 字体
+$font-heading: 'Poppins', sans-serif;
+$font-body: 'Inter', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+$font-code: 'Fira Code', monospace;
+
+// 字号
+$font-size-xs: 12px;
+$font-size-sm: 14px;
+$font-size-md: 16px;
+$font-size-lg: 20px;
+$font-size-xl: 24px;
+$font-size-2xl: 32px;
+$font-size-3xl: 48px;
+$font-size-4xl: 64px;
+
+// 间距
+$spacing-xs: 4px;
+$spacing-sm: 8px;
+$spacing-md: 16px;
+$spacing-lg: 24px;
+$spacing-xl: 32px;
+$spacing-2xl: 48px;
+$spacing-3xl: 64px;
+
+// 圆角
+$radius-sm: 4px;
+$radius-md: 8px;
+$radius-lg: 16px;
+$radius-xl: 24px;
+$radius-round: 50%;
+
+// 阴影
+$shadow-card: 0 4px 24px rgba(108, 99, 255, 0.08);
+$shadow-hover: 0 12px 40px rgba(108, 99, 255, 0.18);
+$shadow-nav: 0 2px 16px rgba(0, 0, 0, 0.06);
+$shadow-glow: 0 0 30px rgba(108, 99, 255, 0.25);
+$shadow-inset: inset 0 2px 4px rgba(0, 0, 0, 0.06);
+
+// 过渡
+$transition-fast: 0.2s ease;
+$transition-normal: 0.3s ease;
+$transition-slow: 0.5s ease;
+$transition-spring: 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+
+// 断点
+$breakpoint-sm: 576px;
+$breakpoint-md: 768px;
+$breakpoint-lg: 992px;
+$breakpoint-xl: 1200px;
+
+// 容器宽度
+$container-max: 1200px;
+$container-narrow: 800px;
