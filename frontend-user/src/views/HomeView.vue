@@ -6,6 +6,7 @@
   <div class="home-page">
     <HeroSection @scroll-down="scrollToStats" />
     <StatsSection ref="statsSectionRef" />
+    <StatsCounter />
     <FeaturesSection />
   </div>
 </template>
@@ -14,6 +15,7 @@
 import { ref } from 'vue'
 import HeroSection from '@/components/HeroSection.vue'
 import StatsSection from '@/components/StatsSection.vue'
+import StatsCounter from '@/components/StatsCounter.vue'
 import FeaturesSection from '@/components/FeaturesSection.vue'
 import createLogger from '@/utils/logger'
 
