@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import createLogger from '@/utils/logger'
+import { useVisitStore } from '@/stores/visit'
 
 const log = createLogger('Router')
 
@@ -62,6 +63,8 @@ router.beforeEach((to, from) => {
 
 router.afterEach((to) => {
   log.debug('路由导航完成', { path: to.path })
+  const visitStore = useVisitStore()
+  visitStore.recordVisit(to.path)
 })
 
 export default router
