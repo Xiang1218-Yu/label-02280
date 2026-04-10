@@ -18,7 +18,8 @@
           <div class="search-box">
             <el-icon><Search /></el-icon>
             <input
-              v-model="blogStore.searchKeyword"
+              :value="blogStore.searchKeyword"
+              @input="handleSearchInput"
               type="text"
               placeholder="搜索文章..."
               class="search-input"
@@ -117,6 +118,12 @@ const paginatedArticles = computed(() => {
   const start = (currentPage.value - 1) * pageSize
   return blogStore.filteredArticles.slice(start, start + pageSize)
 })
+
+function handleSearchInput(e) {
+  log.info('搜索输入变更', { value: e.target.value })
+  blogStore.setSearch(e.target.value)
+  currentPage.value = 1
+}
 
 function handleCategoryChange(cat) {
   log.info('博客分类切换', { category: cat })

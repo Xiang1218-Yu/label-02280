@@ -110,7 +110,6 @@ export const useBlogStore = defineStore('blog', () => {
     currentCategory.value = cat
     currentPage.value = 1
   }
-
   return {
     searchKeyword, currentCategory, currentPage, pageSize,
     articles, categories, filteredArticles,
