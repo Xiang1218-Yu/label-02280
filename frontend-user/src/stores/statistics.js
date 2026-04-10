@@ -128,3 +128,12 @@ export const useStatisticsStore = defineStore('statistics', () => {
     getStatisticsByType
   }
 })
+
+let statisticsStoreInstance = null
+
+export const getStatisticsStore = () => {
+  if (!statisticsStoreInstance) {
+    statisticsStoreInstance = useStatisticsStore()
+  }
+  return statisticsStoreInstance
+}

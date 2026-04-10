@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import createLogger from '@/utils/logger'
-import { useStatisticsStore } from '@/stores/statistics'
+import { getStatisticsStore } from '@/stores/statistics'
 
 const log = createLogger('Router')
 
@@ -64,7 +64,7 @@ router.beforeEach((to, from) => {
 router.afterEach((to) => {
   log.debug('路由导航完成', { path: to.path })
 
-  const statisticsStore = useStatisticsStore()
+  const statisticsStore = getStatisticsStore()
   statisticsStore.incrementVisit()
 })
 
