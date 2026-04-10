@@ -1,46 +1,31 @@
 <template>
   <section class="visit-stats-section">
     <div class="container">
-      <div class="section-header">
-        <h2 class="section-title">网站访问统计</h2>
-        <p class="section-subtitle">实时统计网站访问量</p>
-      </div>
+      <h2 class="section-title">网站访问<span class="highlight">统计</span></h2>
+      <p class="section-subtitle">实时统计网站访问量</p>
       
       <div class="period-tabs">
-        <el-button-group>
-          <el-button 
-            :type="currentPeriod === 'day' ? 'primary' : 'default'" 
-            @click="setCurrentPeriod('day')"
+        <div class="tabs-container">
+          <button
+            v-for="tab in tabs"
+            :key="tab.value"
+            class="tab-btn"
+            :class="{ active: currentPeriod === tab.value }"
+            @click="setCurrentPeriod(tab.value)"
           >
-            今日
-          </el-button>
-          <el-button 
-            :type="currentPeriod === 'week' ? 'primary' : 'default'" 
-            @click="setCurrentPeriod('week')"
-          >
-            本周
-          </el-button>
-          <el-button 
-            :type="currentPeriod === 'month' ? 'primary' : 'default'" 
-            @click="setCurrentPeriod('month')"
-          >
-            本月
-          </el-button>
-          <el-button 
-            :type="currentPeriod === 'total' ? 'primary' : 'default'" 
-            @click="setCurrentPeriod('total')"
-          >
-            累计
-          </el-button>
-        </el-button-group>
+            {{ tab.label }}
+          </button>
+        </div>
       </div>
 
-      <div class="visit-stat-card">
-        <div class="visit-icon">
-          <el-icon :size="32"><View /></el-icon>
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-number">{{ animatedCount }}</div>
+          <div class="stat-label">{{ periodLabel }}访问量</div>
+          <div class="stat-icon">
+            <el-icon :size="24"><View /></el-icon>
+          </div>
         </div>
-        <div class="visit-number">{{ animatedCount }}</div>
-        <div class="visit-label">{{ periodLabel }}访问量</div>
       </div>
 
       <div class="visit-summary">
@@ -74,6 +59,13 @@ import { useVisitStore } from '@/stores/visit'
 const visitStore = useVisitStore()
 const { currentPeriod, todayCount, weekCount, monthCount, totalCount, currentCount } = storeToRefs(visitStore)
 const { setCurrentPeriod } = visitStore
+
+const tabs = [
+  { value: 'day', label: '今日' },
+  { value: 'week', label: '本周' },
+  { value: 'month', label: '本月' },
+  { value: 'total', label: '累计' }
+]
 
 const animatedCount = ref(0)
 
@@ -115,34 +107,34 @@ onMounted(() => {
 
 .visit-stats-section {
   padding: $spacing-3xl 0;
-  background: linear-gradient(135deg, rgba($color-primary, 0.05), rgba($color-accent, 0.05));
+}
+
+.visit-stats-section :deep(.section-title),
+.section-title {
+  text-align: center;
+  font-family: $font-heading;
+  font-size: $font-size-xl;
+  color: $text-primary;
+  margin-bottom: $spacing-xs;
+
+  .highlight {
+    color: $color-primary;
+  }
 
   .dark-mode & {
-    background: linear-gradient(135deg, rgba($color-primary, 0.1), rgba($color-accent, 0.1));
+    color: $text-white;
   }
 }
 
-.section-header {
+.visit-stats-section :deep(.section-subtitle),
+.section-subtitle {
   text-align: center;
+  display: block;
+  color: $text-secondary;
   margin-bottom: $spacing-xl;
 
-  .section-title {
-    font-family: $font-heading;
-    font-size: $font-size-xl;
-    color: $text-dark;
-    margin-bottom: $spacing-xs;
-
-    .dark-mode & {
-      color: $text-white;
-    }
-  }
-
-  .section-subtitle {
-    color: $text-secondary;
-
-    .dark-mode & {
-      color: $text-light;
-    }
+  .dark-mode & {
+    color: $text-light;
   }
 }
 
@@ -150,40 +142,97 @@ onMounted(() => {
   display: flex;
   justify-content: center;
   margin-bottom: $spacing-xl;
+
+  .tabs-container {
+    display: inline-flex;
+    background: $bg-page;
+    border-radius: $radius-xl;
+    padding: $spacing-xs;
+    gap: $spacing-xs;
+    box-shadow: $shadow-inset;
+
+    .dark-mode & {
+      background: rgba(255, 255, 255, 0.04);
+    }
+  }
+
+  .tab-btn {
+    padding: $spacing-sm $spacing-lg;
+    border: none;
+    background: transparent;
+    color: $text-secondary;
+    font-size: $font-size-sm;
+    font-weight: 500;
+    border-radius: $radius-lg;
+    cursor: pointer;
+    transition: all $transition-normal;
+    position: relative;
+    overflow: hidden;
+
+    .dark-mode & {
+      color: $text-light;
+    }
+
+    &:hover {
+      color: $color-primary;
+      background: rgba($color-primary, 0.08);
+    }
+
+    &.active {
+      background: linear-gradient(135deg, $color-primary, $color-primary-dark);
+      color: $text-white;
+      box-shadow: 0 4px 12px rgba($color-primary, 0.4);
+      transform: translateY(-2px);
+
+      &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+        animation: shine 2s infinite;
+      }
+    }
+  }
 }
 
-.visit-stat-card {
-  max-width: 400px;
-  margin: 0 auto $spacing-xl;
-  padding: $spacing-xl;
-  border-radius: $radius-lg;
+@keyframes shine {
+  0% { left: -100%; }
+  100% { left: 100%; }
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  gap: $spacing-lg;
+  max-width: 300px;
+  margin: 0 auto;
+}
+
+.stat-card {
   background: white;
+  border-radius: $radius-lg;
+  padding: $spacing-xl;
   text-align: center;
   box-shadow: $shadow-card;
-  transition: all $transition-normal;
+  transition: all $transition-spring;
+  position: relative;
+  overflow: hidden;
+  border: 1px solid transparent;
 
   .dark-mode & {
     background: $bg-dark-card;
   }
 
   &:hover {
-    transform: translateY(-2px);
+    transform: translateY(-8px);
     box-shadow: $shadow-hover;
+    border-color: rgba($color-primary, 0.15);
   }
 
-  .visit-icon {
-    width: 64px;
-    height: 64px;
-    margin: 0 auto $spacing-md;
-    background: linear-gradient(135deg, $color-primary, $color-accent);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: white;
-  }
-
-  .visit-number {
+  .stat-number {
     font-family: $font-heading;
     font-size: 48px;
     font-weight: 700;
@@ -192,13 +241,21 @@ onMounted(() => {
     margin-bottom: $spacing-xs;
   }
 
-  .visit-label {
+  .stat-label {
     font-size: $font-size-md;
     color: $text-secondary;
 
     .dark-mode & {
       color: $text-light;
     }
+  }
+
+  .stat-icon {
+    position: absolute;
+    top: $spacing-md;
+    right: $spacing-md;
+    opacity: 0.1;
+    color: $color-primary;
   }
 }
 
@@ -207,6 +264,7 @@ onMounted(() => {
   justify-content: center;
   gap: $spacing-xl;
   flex-wrap: wrap;
+  margin-top: $spacing-lg;
 
   .summary-item {
     font-size: $font-size-sm;
