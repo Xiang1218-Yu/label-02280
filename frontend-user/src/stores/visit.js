@@ -5,23 +5,32 @@ import createLogger from '@/utils/logger'
 const log = createLogger('VisitStore')
 
 const STORAGE_KEY = 'visit_records'
+const SESSION_KEY = 'session_visited_pages'
 
 export const useVisitStore = defineStore('visit', () => {
   const visitRecords = ref(JSON.parse(localStorage.getItem(STORAGE_KEY)) || [])
+  const sessionVisitedPages = ref(JSON.parse(sessionStorage.getItem(SESSION_KEY)) || [])
 
   const recordVisit = (pagePath) => {
+    if (sessionVisitedPages.value.includes(pagePath)) {
+      log.debug('会话内已访问，跳过统计', { path: pagePath })
+      return
+    }
+
     const record = {
       path: pagePath,
       timestamp: new Date().toISOString(),
       date: new Date().toDateString()
     }
     visitRecords.value.push(record)
+    sessionVisitedPages.value.push(pagePath)
     saveToStorage()
     log.info('页面访问记录', { path: pagePath, total: visitRecords.value.length })
   }
 
   const saveToStorage = () => {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(visitRecords.value))
+    sessionStorage.setItem(SESSION_KEY, JSON.stringify(sessionVisitedPages.value))
   }
 
   const getDailyVisits = computed(() => {
